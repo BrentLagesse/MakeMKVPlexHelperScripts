@@ -23,6 +23,9 @@ done
 #echo $offset
 # look at all the mkvs with the standard MakeMKV format name
 
+if [ $fake -eq 1 ]; then
+	mkdir test
+fi
 
 for file in title_t*.mkv; do
   # Extract NN (2-digit number)
@@ -33,9 +36,8 @@ for file in title_t*.mkv; do
   
   # Construct new filename
   new_name="$basename - S${season}E$MM.mkv"
-  
-  if [ $fake=1 ]; then
-	  mkdir test
+  echo $fake  
+  if [ $fake -eq 1 ]; then
 	  touch "test/$new_name"
   else
   # Rename the file
