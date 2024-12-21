@@ -1,16 +1,46 @@
 #!/bin/bash
 
+# actually do this
+fake=0
+
+# usually it starts at 0 and we want 1 for Plex
+offset=1
+# take in flags
+
+while getopts b:s:f:o: flag
+do
+    case "${flag}" in
+        b) basename=${OPTARG};;
+        s) season=${OPTARG};;
+        f) fake=${OPTARG};;
+	o) offset=${OPTARG};;
+    esac
+done
+
+#echo $basename
+#echo $season
+#echo $fake
+#echo $offset
+# look at all the mkvs with the standard MakeMKV format name
+
+
 for file in title_t*.mkv; do
   # Extract NN (2-digit number)
   NN=$(echo "$file" | grep -oP '(?<=title_t)\d{2}')
   
-  # Calculate MM (15 + NN)
-  MM=$(printf "%02d" $(expr $NN + 1))
+  # Calculate MM
+  MM=$(printf "%02d" $(expr $NN + $offset))
   
   # Construct new filename
-  new_name="Community - S01E$MM.mkv"
+  new_name="$basename - S${season}E$MM.mkv"
   
+  if [ $fake=1 ]; then
+	  mkdir test
+	  touch "test/$new_name"
+  else
   # Rename the file
-  mv "$file" "test/$new_name"
+  mv "$file" "$new_name"
+
+  fi
 done
 
