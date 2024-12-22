@@ -3,13 +3,16 @@
 # actually do this
 fake=0
 
+start_dir="."
+
 # usually it starts at 0 and we want 1 for Plex
 offset=1
 # take in flags
 
-while getopts b:s:f:o: flag
+while getopts d:b:s:f:o: flag
 do
     case "${flag}" in
+	d) start_dir=${OPTARG};;
         b) basename=${OPTARG};;
         s) season=${OPTARG};;
         f) fake=${OPTARG};;
@@ -24,10 +27,10 @@ done
 # look at all the mkvs with the standard MakeMKV format name
 
 if [ $fake -eq 1 ]; then
-	mkdir test
+	mkdir -p "$start_dir/test"
 fi
 
-for file in title_t*.mkv; do
+for file in $start_dir/title_t*.mkv; do
   # Extract NN (2-digit number)
   NN=$(echo "$file" | grep -oP '(?<=title_t)\d{2}')
   
@@ -36,12 +39,12 @@ for file in title_t*.mkv; do
   
   # Construct new filename
   new_name="$basename - S${season}E$MM.mkv"
-  echo $fake  
+  #echo $fake  
   if [ $fake -eq 1 ]; then
-	  touch "test/$new_name"
+	  touch "$start_dir/test/$new_name"
   else
   # Rename the file
-  mv "$file" "$new_name"
+  mv "$file" "$start_dir/$new_name"
 
   fi
 done
