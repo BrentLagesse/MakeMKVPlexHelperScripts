@@ -1,5 +1,7 @@
 # MakeMKV to Plex Helper Scripts
 
+NOTE!   There is still a major bug with some of the extra content being picked up as episodes.  Use at your own risk.
+
 I wrote these scripts to help make sure Plex could find the TV shows that I ripped from disc.   The scripts go through each directory (assuming the correct directory structure described below), and Identify the show name, the season number, and the disc number.  Then they identify the biggest file in the directory and set a size filter.  This is done because some discs are just episodes and some discs are episodes + extra content.  Typically the extra content is much smaller than the episodes, so I take the biggest file and divide it by 4.  Anything bigger than that is guessed to be an episode and anything else is extra content.   The extra content is moved to a temporary directory that can be dealt with later.  Once we have the episodes, the scripts goes through every disc in a season and renames it.
 
 
