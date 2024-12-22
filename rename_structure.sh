@@ -1,11 +1,13 @@
 #!/bin/bash
 
 fake=0
+size=2
 
-while getopts f: flag
+while getopts f:s: flag
 do
     case "${flag}" in
         f) fake=${OPTARG};;
+	s) size=${OPTARG};;
     esac
 done
 
@@ -43,7 +45,7 @@ for FIRST_LEVEL_DIR in */; do
 	  # Extract the size 
 	  largest_size=$(echo "$largest_file" | awk '{print $1}')
           # Usually you have like 5-6 episodes on a disc, but sometimes there are extras that aren't as big.  Lets assume that we want to remove the extras for the time being as they usually aren't handled the same way as the rest by the movie databases/plex.
-	  filter_size=$((largest_size / 4))
+	  filter_size=$((largest_size / size))
 	 # echo "$filter_size"
 	 COMMAND="$SCRIPT_DIR/move_small.sh -d ./$SECOND_LEVEL_DIR -s $filter_size" 
 	 CLEAN_COMMAND=${COMMAND//[![:print:]]/}
